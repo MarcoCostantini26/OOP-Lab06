@@ -1,9 +1,7 @@
 package it.unibo.oop.lab.exception1;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
@@ -90,8 +88,18 @@ public final class BaseRobotTest {
         assertEquals(0d, r2.getBatteryLevel(), 0);
         // verify position: same as start position
         assertEquals("[CHECKING ROBOT INIT POS Y]", 0, r2.getEnvironment().getCurrPosY());
-        // out of world: returns false
-        assertFalse("[CHECKING MOVING UP]", r2.moveUp());
+        // out of world
+        try {
+        	while(r2.getBatteryLevel() > 0) {
+        		r2.moveUp();
+        		r2.moveDown();
+        	}
+        	r2.moveUp();
+        	fail();
+        } catch (PositionOutOfBoundException | 
+        		NotEnoughBatteryException e) {
+        	assertNotNull(e);
+        }
         // recharge battery
         r2.recharge();
         // verify battery level
