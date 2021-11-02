@@ -83,7 +83,7 @@ public class Robot {
      *            the new Y position to move the robot to
      * @return true if robot gets moved, false otherwise
      */
-    private boolean moveToPosition(final int newX, final int newY) {
+    private void moveToPosition(final int newX, final int newY) {
         boolean returnValue = true;
         if (this.isBatteryEnoughToMove()) {
             try {
