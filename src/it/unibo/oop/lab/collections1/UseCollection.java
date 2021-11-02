@@ -1,8 +1,10 @@
 package it.unibo.oop.lab.collections1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Example class using {@link java.util.List} and {@link java.util.Map}.
@@ -10,13 +12,20 @@ import java.util.List;
  */
 public final class UseCollection {
 	
-	public static int START_VALUE = 1000;
-	public static int FINAL_VALUE = 2000;
-	public static int FIRST_ELEMENT = 0;
-	public static int FIX_INDEX_ARRAY_LIST = 1;
-	public static int NUMBER_ELEMENTS_TO_INSERT = 100_000;
-	public static int NUMBER_ELEMENTS_TO_READ = 1000;
+	private static int START_VALUE = 1000;
+	private static int FINAL_VALUE = 2000;
+	private static int FIRST_ELEMENT = 0;
+	private static int FIX_INDEX_ARRAY_LIST = 1;
+	private static int NUMBER_ELEMENTS_TO_INSERT = 100_000;
+	private static int NUMBER_ELEMENTS_TO_READ = 1000;
 
+	private static long AFRICA_POPULATION = 1_110_635_000L;
+    private static long AMERICAS_POPULATION = 972_005_000L;
+    private static long ANTARCTICA_POPULATION = 0L;
+    private static long ASIA_POPULATION = 4_298_723_000L;
+    private static long EUROPE_POPULATION = 742_452_000L;
+    private static long OCEANIA_POPULATION = 38_304_000L;
+    
     private UseCollection() {
     }
 
@@ -84,24 +93,20 @@ public final class UseCollection {
     	
     	System.out.println("Read 1000 elements in linked list: " + time2);
     	
-        /*
-         * 7) Build a new Map that associates to each continent's name its
-         * population:
-         * 
-         * Africa -> 1,110,635,000
-         * 
-         * Americas -> 972,005,000
-         * 
-         * Antarctica -> 0
-         * 
-         * Asia -> 4,298,723,000
-         * 
-         * Europe -> 742,452,000
-         * 
-         * Oceania -> 38,304,000
-         */
-        /*
-         * 8) Compute the population of the world
-         */
+    	Map<String, Long> map = new HashMap<String, Long>();
+    	
+    	map.put("Africa", AFRICA_POPULATION);
+    	map.put("Americas", AMERICAS_POPULATION);
+    	map.put("Antarctica", ANTARCTICA_POPULATION);
+    	map.put("Asia", ASIA_POPULATION);
+    	map.put("Europe", EUROPE_POPULATION);
+    	map.put("Oceania", OCEANIA_POPULATION);
+    	
+    	long population = 0;
+    	for(long people : map.values()) {
+    		population += people;
+    	}
+    	
+    	System.out.println("Population: " + population);
     }
 }
