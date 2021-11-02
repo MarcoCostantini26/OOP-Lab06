@@ -12,6 +12,8 @@ public final class UseCollection {
 	
 	public static int START_VALUE = 1000;
 	public static int FINAL_VALUE = 2000;
+	public static int FIRST_ELEMENT = 0;
+	public static int FIX_INDEX_ARRAY_LIST = 1;
 
     private UseCollection() {
     }
@@ -28,14 +30,15 @@ public final class UseCollection {
     	
     	List<Integer> linkedList = new LinkedList<>();
     	linkedList.addAll(arrayList);
-        /*
-         * 3) Using "set" and "get" and "size" methods, swap the first and last
-         * element of the first list. You can not use any "magic number".
-         * (Suggestion: use a temporary variable)
-         */
-        /*
-         * 4) Using a single for-each, print the contents of the arraylist.
-         */
+    	
+    	int tmpElement = arrayList.get(FIRST_ELEMENT);
+    	arrayList.set(FIRST_ELEMENT, arrayList.get(arrayList.size() - FIX_INDEX_ARRAY_LIST));
+    	arrayList.set(arrayList.size() - FIX_INDEX_ARRAY_LIST, tmpElement);
+    	
+    	for(Integer elems : arrayList) {
+    		System.out.print(elems + " ");
+    	}
+    	
         /*
          * 5) Measure the performance of inserting new elements in the head of
          * the collection: measure the time required to add 100.000 elements as
