@@ -2,7 +2,9 @@ package it.unibo.oop.lab.collections2;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -67,6 +69,12 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
 	@Override
     public boolean addFollowedUser(final String circle, final U user) {
 		Set<U> usersFromGroup = this.users.get(circle);
+		if(usersFromGroup == null) {
+			usersFromGroup = new HashSet<>();
+			usersFromGroup.add(user);
+			users.put(circle, usersFromGroup);
+			return true;
+		}
 		if(usersFromGroup.contains(user)) {
 			return false;
 		}else {
@@ -78,7 +86,11 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
 
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        return new ArrayList<U>(users.get(groupName));
+    	Collection<U> usersFollowedInGroup = this.users.get(groupName);
+    	if (usersFollowedInGroup != null) {
+    		 return new ArrayList<>(usersFollowedInGroup);
+    	}
+    		return Collections.emptyList();
     }
 
     @Override
