@@ -1,5 +1,6 @@
 package it.unibo.oop.lab.collections2;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -65,17 +66,28 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
 
 	@Override
     public boolean addFollowedUser(final String circle, final U user) {
-        return false;
+		Set<U> usersFromGroup = this.users.get(circle);
+		if(usersFromGroup.contains(user)) {
+			return false;
+		}else {
+			usersFromGroup.add(user);
+			users.put(circle, usersFromGroup);
+			return true;
+		}
     }
 
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        return null;
+        return new ArrayList<U>(users.get(groupName));
     }
 
     @Override
     public List<U> getFollowedUsers() {
-        return null;
+    	List <U> followedUsers = new ArrayList<>();
+    	for(String groupName : users.keySet()) {
+    		followedUsers.addAll(getFollowedUsersInGroup(groupName));
+    	}
+        return followedUsers;
     }
 
 }
