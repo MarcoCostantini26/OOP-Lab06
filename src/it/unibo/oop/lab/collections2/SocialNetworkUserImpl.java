@@ -1,7 +1,10 @@
 package it.unibo.oop.lab.collections2;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 
@@ -17,7 +20,10 @@ import java.util.List;
  *            Specific user type
  */
 public class SocialNetworkUserImpl<U extends User> extends UserImpl implements SocialNetworkUser<U> {
-
+	
+	// nome del gruppo, tutti gli utenti registrati in quel gruppo 
+	Map<String, Set<U>> users = new HashMap<>();
+	
     /*
      * 
      * [FIELDS]
@@ -30,19 +36,8 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
      * think of what type of keys and values would best suit the requirements
      */
 
-    /*
-     * [CONSTRUCTORS]
-     * 
-     * 1) Complete the definition of the constructor below, for building a user
-     * participating in a social network, with 4 parameters, initializing:
-     * 
-     * - firstName - lastName - username - age and every other necessary field
-     * 
-     * 2) Define a further constructor where age is defaulted to -1
-     */
-
     /**
-     * Builds a new {@link SocialNetworkUserImpl}.
+     * Builds a new {@link SocialNetworkUserImpl1}.
      * 
      * @param name
      *            the user firstname
@@ -54,8 +49,12 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
      *            alias of the user, i.e. the way a user is identified on an
      *            application
      */
-    public SocialNetworkUserImpl(final String name, final String surname, final String user, final int userAge) {
+	public SocialNetworkUserImpl(final String name, final String surname, final String user, final int userAge) {
         super(name, surname, user, userAge);
+    }
+    
+    public SocialNetworkUserImpl(final String firstName, final String lastName, final String username) {
+        this(firstName, lastName, username, -1);
     }
 
     /*
@@ -64,7 +63,7 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
      * Implements the methods below
      */
 
-    @Override
+	@Override
     public boolean addFollowedUser(final String circle, final U user) {
         return false;
     }
