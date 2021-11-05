@@ -37,7 +37,7 @@ public class StrictBankAccount implements BankAccount {
      */
     public void deposit(final int usrID, final double amount) {
     	try {
-    		checkUser(usrID));
+    		checkUser(usrID);
             this.balance += amount;
             increaseTransactionsCount();
     	}catch(NotEnoughFoundsException e) {
