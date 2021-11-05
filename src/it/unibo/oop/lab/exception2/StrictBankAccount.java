@@ -36,12 +36,13 @@ public class StrictBankAccount implements BankAccount {
      * {@inheritDoc}
      */
     public void deposit(final int usrID, final double amount) {
-        if (!checkUser(usrID)) {
-        	throw new WrongAccountHolderException(usrID);
-        }else {
+    	try {
+    		checkUser(usrID));
             this.balance += amount;
             increaseTransactionsCount();
-        }
+    	}catch(NotEnoughFoundsException e) {
+    		System.out.println(e);
+    	}
     }
 
     /**
@@ -49,13 +50,14 @@ public class StrictBankAccount implements BankAccount {
      * {@inheritDoc}
      */
     public void withdraw(final int usrID, final double amount) {
-    	if (!checkUser(usrID)) {
-        	throw new WrongAccountHolderException(usrID);
-        }else {
-        	if (isWithdrawAllowed(amount)) {
-        		this.balance -= amount;
-        		increaseTransactionsCount();
-        	}
+    	try {
+    		checkUser(usrID); 
+        	isWithdrawAllowed(amount));
+            this.balance -= amount;
+            increaseTransactionsCount();
+    	}catch (WrongAccountHolderException |
+    			NotEnoughFoundsException e) {
+    		System.out.println(e);
         }
     }
 
@@ -103,22 +105,28 @@ public class StrictBankAccount implements BankAccount {
      */
     public void computeManagementFees(final int usrID) {
         final double feeAmount = MANAGEMENT_FEE + (totalTransactionCount * StrictBankAccount.TRANSACTION_FEE);
-        if (!checkUser(usrID)) {
-        	throw new WrongAccountHolderException(usrID);
-        }else {
-        	if (isWithdrawAllowed(feeAmount)) {
-        		balance -= MANAGEMENT_FEE + totalTransactionCount * StrictBankAccount.TRANSACTION_FEE;
-        		totalTransactionCount = 0;
-        	}
+        try{
+        	checkUser(usrID);
+        	isWithdrawAllowed(feeAmount);
+        	balance -= MANAGEMENT_FEE + totalTransactionCount * StrictBankAccount.TRANSACTION_FEE;
+            totalTransactionCount = 0;
+        }catch (WrongAccountHolderException |
+        		NotEnoughFoundsException e) {
+        	System.out.println(e);
         }
+            
     }
 
-    private boolean checkUser(final int id) {
-        return this.usrID == id;
+    private void checkUser(final int id) {
+    	if(this.usrID != id) {
+    		throw new WrongAccountHolderException(id);
+    	}
     }
 
-    private boolean isWithdrawAllowed(final double amount) {
-        return balance > amount;
+    private void isWithdrawAllowed(final double amount) {
+        if(balance < amount) {
+        	throw new NotEnoughFoundsException(amount);
+        }
     }
 
     private void increaseTransactionsCount() {
