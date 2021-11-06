@@ -1,5 +1,7 @@
 package it.unibo.oop.lab.exception2;
 
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 /**
@@ -14,14 +16,40 @@ public final class TestStrictBankAccount {
      */
     @Test
     public void testBankOperations() {
-        /*
-         * 1) Creare due StrictBankAccountImpl assegnati a due AccountHolder a
-         * scelta, con ammontare iniziale pari a 10000 e nMaxATMTransactions=10
-         * 
-         * 2) Effetture un numero di operazioni a piacere per verificare che le
-         * eccezioni create vengano lanciate soltanto quando opportuno, cioè in
-         * presenza di un id utente errato, oppure al superamento del numero di
-         * operazioni ATM gratuite.
-         */
+    	AccountHolder account1 = new AccountHolder("Mario", "Rossi", 1);
+    	AccountHolder account2 = new AccountHolder("Filippo", "Verdi", 2);
+    	
+    	BankAccount MarioRossiBank = new StrictBankAccount(1, 10_000, 10);
+    	BankAccount FilippoVerdiBank = new StrictBankAccount(2, 10_000, 10);
+    	
+    	try {
+            MarioRossiBank.deposit(2, 100);
+            fail();
+        }catch (WrongAccountHolderException e) {
+            assertNotNull(e);
+        }
+    	
+        for (int i = 0; i < 5; i++) {
+            try {
+                FilippoVerdiBank.depositFromATM(account2.getUserID(), 1);
+            } catch (TransactionsOverQuotaException e) {
+                fail("Not exceeded yet max no. transactions!");
+            }
+        }
+
+        try {
+            FilippoVerdiBank.depositFromATM(account2.getUserID(), 1);
+            fail("Should raise the exception signaling that we exceeded max no. transactions!");
+        } catch (TransactionsOverQuotaException | WrongAccountHolderException e) {
+            assertNotNull(e);
+        }
+        
+        try {
+            MarioRossiBank.withdraw(account1.getUserID(), 50_000);
+        } catch (WrongAccountHolderException e) {
+            fail();
+        } catch (NotEnoughFoundsException e) {
+            assertNotNull(e);
+        }
     }
 }
