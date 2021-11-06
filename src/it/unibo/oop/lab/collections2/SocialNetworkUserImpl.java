@@ -24,20 +24,7 @@ import java.util.Set;
  */
 public class SocialNetworkUserImpl<U extends User> extends UserImpl implements SocialNetworkUser<U> {
 	
-	// nome del gruppo, tutti gli utenti registrati in quel gruppo 
 	Map<String, Set<U>> users = new HashMap<>();
-	
-    /*
-     * 
-     * [FIELDS]
-     * 
-     * Define any necessary field
-     * 
-     * In order to save the people followed by a user organized in groups, adopt
-     * a generic-type Map:
-     * 
-     * think of what type of keys and values would best suit the requirements
-     */
 
     /**
      * Builds a new {@link SocialNetworkUserImpl1}.
