@@ -2,6 +2,7 @@ package it.unibo.oop.lab06.generics1;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -42,15 +43,32 @@ public class GraphImpl<N> implements Graph<N>{
 	}
 
 	@Override
+	/*
+	 * Using BFS to get path
+	 * */
 	public List<N> getPath(N source, N target) {
 		List<N> pathList = new ArrayList<>();
 		
 		if(nodeExist(source) && nodeExist(target)) {
 			Queue<N> q = new ArrayDeque<>();
-			
+			List<N> discovered = new ArrayList<>(numberOfNodes());
+			discovered.add(source);
+			q.add(source);
+			while(!q.isEmpty()) {
+				N v = q.poll();
+				pathList.add(v);
+				if (v == target) {
+					return pathList;
+				}
+				for(N u : edges.get(v)) {
+					if(!discovered.contains(u)) {
+						discovered.add(u);
+						q.add(u);
+					}
+				}
+			}
 		}
-		
-		return pathList;
+		return Collections.emptyList();
 	}
 	
 	private int numberOfNodes() {
